@@ -1,0 +1,28 @@
+services:
+#####################################################
+##   TheNewsReporter.Services.UserPreferences      ##
+#####################################################
+  thenewsreporter.accessors.userpreferences:
+    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsuserpreferences
+    build:
+      context: .
+      dockerfile: Accessors/TheNewsReporter.Accessors.UserPreferences/Dockerfile
+    networks:
+        - news-reporter-network
+      
+
+  mongodb:
+    image: mongo:latest
+    ports:
+        - 27027:27017
+    networks:
+        - news-reporter-network
+    volumes:
+      - mongo-data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d
+
+
+networks:
+  news-reporter-network:
+volumes:
+  mongo-data:  
