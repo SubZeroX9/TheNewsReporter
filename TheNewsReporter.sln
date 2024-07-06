@@ -3,9 +3,37 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accessors", "Accessors", "{9B63D942-8CBD-44E8-B753-382CA74F7DB6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mongo-init", "mongo-init", "{6CA1B134-3648-4A26-97DD-FF7D388171AA}"
+	ProjectSection(SolutionItems) = preProject
+		mongo-init\user-preferences-seed.js = mongo-init\user-preferences-seed.js
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Accessors.UserPreferencesService", "Accessors\TheNewsReporter.Accessors.UserPreferencesService\TheNewsReporter.Accessors.UserPreferencesService.csproj", "{76C7EE46-0DD3-4116-BC6A-B30CA41CC5CF}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{5EC5C38A-70D2-4F1E-9163-2ED2B761CF9B}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76C7EE46-0DD3-4116-BC6A-B30CA41CC5CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C7EE46-0DD3-4116-BC6A-B30CA41CC5CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C7EE46-0DD3-4116-BC6A-B30CA41CC5CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C7EE46-0DD3-4116-BC6A-B30CA41CC5CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EC5C38A-70D2-4F1E-9163-2ED2B761CF9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EC5C38A-70D2-4F1E-9163-2ED2B761CF9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EC5C38A-70D2-4F1E-9163-2ED2B761CF9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EC5C38A-70D2-4F1E-9163-2ED2B761CF9B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{76C7EE46-0DD3-4116-BC6A-B30CA41CC5CF} = {9B63D942-8CBD-44E8-B753-382CA74F7DB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7699EDD8-A4D4-4861-8C08-6EF866D73686}
