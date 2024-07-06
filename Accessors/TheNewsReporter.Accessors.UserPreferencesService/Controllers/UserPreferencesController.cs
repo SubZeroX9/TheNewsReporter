@@ -48,7 +48,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
         }
 
 
-        [HttpGet("userpreference/{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<UserPreferences>> GetUserPreferences(string id)
         {
             try
@@ -75,7 +75,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
             }
         }
 
-        [HttpPost("userpreference/add")]
+        [HttpPost("add")]
         public async Task<ActionResult> AddUserPreference([FromBody] UserPreferenceAddRequest userPreferences)
         {
             try
