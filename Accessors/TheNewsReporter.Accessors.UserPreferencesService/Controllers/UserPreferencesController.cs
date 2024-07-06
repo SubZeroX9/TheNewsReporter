@@ -48,7 +48,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
         }
 
 
-        [HttpGet("/userpreference/{id}")]
+        [HttpGet("userpreference/{id}")]
         public async Task<ActionResult<UserPreferences>> GetUserPreferences(string id)
         {
             try
