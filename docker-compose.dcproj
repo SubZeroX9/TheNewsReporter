@@ -4,10 +4,10 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>83175840-8f12-4865-8d9d-0a26bd836017</ProjectGuid>
+    <ProjectGuid>5ec5c38a-70d2-4f1e-9163-2ed2b761cf9b</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>thenewsreporter.accessors.userpreferences</DockerServiceName>
+    <DockerServiceName>thenewsreporter.accessors.userpreferencesservice</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -1,17 +1,22 @@
 services:
-#####################################################
-##   TheNewsReporter.Services.UserPreferences      ##
-#####################################################
-  thenewsreporter.accessors.userpreferences:
-    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsuserpreferences
+###########################################################
+##   TheNewsReporter.Services.UserPreferencesService     ##
+###########################################################
+  thenewsreporter.accessors.userpreferencesservice:
+    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsuserpreferencesservice
     build:
       context: .
-      dockerfile: Accessors/TheNewsReporter.Accessors.UserPreferences/Dockerfile
+      dockerfile: Accessors/TheNewsReporter.Accessors.UserPreferencesService/Dockerfile
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - MongoDatabase__ConnectionString=mongodb://mongodb-service:27017
+    depends_on:
+      - mongodb-service
     networks:
         - news-reporter-network
       
 
-  mongodb:
+  mongodb-service:
     image: mongo:latest
     ports:
         - 27027:27017

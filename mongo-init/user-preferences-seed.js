@@ -1,32 +1,27 @@
 // JavaScript source code
 
-
 db = db.getSiblingDB('TheNewsReporter');
 
 db.UserPreferences.insertMany([
     {
         "_id": ObjectId(),
-        "userId": ObjectId(),
-        "preferences": {
-            "categories": ["technology", "science"],
-            "communication": {
-                "channel": "email",
-                "details": {
-                    "email": "user1@example.com"
-                }
+        "user_id": ObjectId(),
+        "prefered_categories": ["technology", "science"],
+        "communication_channel": {
+            "channel": "Email",
+            "details": {
+                "email": "user1@example.com"
             }
         }
     },
     {
         "_id": ObjectId(),
-        "userId": ObjectId(),
-        "preferences": {
-            "categories": ["business", "health"],
-            "communication": {
-                "channel": "telegram",
-                "details": {
-                    "telegramId": "@user2"
-                }
+        "user_id": ObjectId(),
+        "prefered_categories": ["business", "health"],
+        "communication_channel": {
+            "channel": "Telegram",
+            "details": {
+                "telegramId": "@user2"
             }
         }
     }

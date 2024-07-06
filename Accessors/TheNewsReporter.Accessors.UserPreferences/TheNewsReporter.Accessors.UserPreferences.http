@@ -1,6 +1,0 @@
-@TheNewsReporter.Accessors.UserPreferences_HostAddress = http://localhost:5007
-
-GET {{TheNewsReporter.Accessors.UserPreferences_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
