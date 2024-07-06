@@ -15,7 +15,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Services
             _logger = logger;
         }
 
-        internal async Task<List<UserPreferences>> GetAllUserPreferencesAsync()
+        public async Task<List<UserPreferences>> GetAllUserPreferencesAsync()
         {
             try
             {
@@ -41,7 +41,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Services
             }
         }
 
-        internal async Task<UserPreferences> GetUserPreferences(string userId)
+        public async Task<UserPreferences> GetUserPreferences(string userId)
         {
             try
             { 
@@ -67,7 +67,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Services
             }
         }
 
-        internal async Task AddUserPreference(UserPreferenceAddRequest userPreferences)
+        public async Task AddUserPreference(UserPreferenceAddRequest userPreferences)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Services
             }
         }
 
-        internal async Task DeleteUserPreference(string id)
+        public async Task DeleteUserPreference(string id)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Services
             }
         }
 
-        internal async Task UpdateUserPreferences(UserPreferenceUpdateRequest userPreferences)
+        public async Task UpdateUserPreferences(UserPreferenceUpdateRequest userPreferences)
         {
             try
             {
