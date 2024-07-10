@@ -1,11 +1,23 @@
 using Microsoft.OpenApi.Models;
 using TheNewsReporter.Accessors.NewsAggregationService.Models;
+using TheNewsReporter.Accessors.NewsAggregationService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 builder.Services.AddControllers();
+builder.Services.AddHttpClient<NewsService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
@@ -17,6 +29,8 @@ builder.Services.AddSwaggerGen(
 
 builder.Services.Configure<NewsApiSettings>(
     builder.Configuration.GetSection("NewsApiSettings"));
+
+builder.Services.AddScoped<NewsService>();
 
 var app = builder.Build();
 
@@ -34,6 +48,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
