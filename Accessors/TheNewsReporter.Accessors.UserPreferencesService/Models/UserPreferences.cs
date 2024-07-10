@@ -18,6 +18,10 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Models
         [JsonPropertyName("prefered_categories")]
         public List<string>? Categories { get; set; }
 
+        [BsonElement("news_preferences")]
+        [JsonPropertyName("news_preferences")]
+        public List<string>? NewsPreferences { get; set; }
+
         [BsonElement("communication_channel")]
         [JsonPropertyName("communication_channel")]
         public CommunicationChannel? CommunicationChannel { get; set; }

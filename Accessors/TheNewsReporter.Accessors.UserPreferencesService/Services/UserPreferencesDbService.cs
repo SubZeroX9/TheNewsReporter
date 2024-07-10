@@ -76,6 +76,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Services
                 {
                     UserId = userPreferences.UserId,
                     Categories = userPreferences.Categories,
+                    NewsPreferences = userPreferences.NewsPreferences,
                     CommunicationChannel = userPreferences.CommunicationChannel
                 };
                 await _db.UserPreferencesCollection.InsertOneAsync(newUserPreferences);
@@ -131,7 +132,8 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Services
                 var filter = Builders<UserPreferences>.Filter.Eq(x => x.UserId, userPreferences.UserId);
                 var update = Builders<UserPreferences>.Update
                     .Set(x => x.Categories, userPreferences.Categories)
-                    .Set(x => x.CommunicationChannel, userPreferences.CommunicationChannel);
+                    .Set(x => x.CommunicationChannel, userPreferences.CommunicationChannel)
+                    .Set(x => x.NewsPreferences, userPreferences.NewsPreferences);
                 await _db.UserPreferencesCollection.UpdateOneAsync(filter, update);
                 _logger.LogInformation("User preferences updated in UserPreferencesDbService");
             }
