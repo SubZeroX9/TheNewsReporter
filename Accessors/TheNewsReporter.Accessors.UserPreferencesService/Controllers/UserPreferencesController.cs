@@ -112,6 +112,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
                 {
                     UserId = ObjectId.GenerateNewId().ToString(),
                     Categories = new List<string> { "Technology", "Science","Sports" },
+                    NewsPreferences = new List<string> { "stocks", "breakthrough","scores","winners" },
                     CommunicationChannel = new CommunicationChannel
                     {
                         ChannelEnum = Channel.Email,
