@@ -1,30 +1,52 @@
 services:
 ###########################################################
-##   TheNewsReporter.Services.UserPreferencesService     ##
+##   User Preferences Service                            ##
 ###########################################################
   thenewsreporter.accessors.userpreferencesservice:
+    container_name: User-Preferences-Service
     image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsuserpreferencesservice
     build:
       context: .
       dockerfile: Accessors/TheNewsReporter.Accessors.UserPreferencesService/Dockerfile
+    ports:
+        - "5000:8080"
+        - "5001:8081"
     environment:
-    - ASPNETCORE_ENVIRONMENT=Development
-    - MongoDatabase__ConnectionString=mongodb://mongodb-service:27017
+        - ASPNETCORE_ENVIRONMENT=Development
+        - MongoDatabase__ConnectionString=mongodb://mongodb-service:27017
     depends_on:
-      - mongodb-service
+        - mongodb-service
     networks:
         - news-reporter-network
       
+###########################################################
+##   News Aggregation Service                            ##
+###########################################################
+  thenewsreporter.accessors.newsaggregationservice:
+    container_name: News-Aggregation-Service
+    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsnewsaggregationservice
+    build:
+      context: .
+      dockerfile: Accessors/TheNewsReporter.Accessors.NewsAggregationService/Dockerfile
+    ports:
+        - "5002:8080"
+        - "5003:8081"
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - NewsApiSettings__ApiKey=${NEWS_API_KEY}
+    networks:
+        - news-reporter-network
 
   mongodb-service:
+    container_name: MongoDB-Service
     image: mongo:latest
     ports:
         - 27027:27017
     networks:
         - news-reporter-network
     volumes:
-      - mongo-data:/data/db
-      - ./mongo-init:/docker-entrypoint-initdb.d
+        - mongo-data:/data/db
+        - ./mongo-init:/docker-entrypoint-initdb.d
 
 
 networks:
