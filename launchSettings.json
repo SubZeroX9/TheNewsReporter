@@ -5,7 +5,8 @@
       "commandVersion": "1.0",
       "serviceActions": {
         "thenewsreporter.accessors.userpreferencesservice": "StartDebugging",
-        "thenewsreporter.accessors.newsaggregationservice": "StartDebugging"
+        "thenewsreporter.accessors.newsaggregationservice": "StartDebugging",
+        "thenewsreporter.accessors.aiassistentservice": "StartDebugging"
       }
     }
   }
