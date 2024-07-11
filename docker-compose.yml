@@ -36,6 +36,24 @@ services:
         - NewsApiSettings__ApiKey=${NEWS_API_KEY}
     networks:
         - news-reporter-network
+ 
+###########################################################
+##   AI Assistent Service                                ##
+###########################################################
+  thenewsreporter.accessors.aiassistentservice:
+    container_name: AI-Assistent-Service
+    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsaiassistentservice
+    build:
+        context: .
+        dockerfile: Accessors/TheNewsReporter.Accessors.AIAssistentService/Dockerfile
+    ports:
+        - "5004:8080"
+        - "5005:8081"
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - AIApiSettings__ApiKey=${AI_API_KEY} 
+    networks:
+        - news-reporter-network
 
   mongodb-service:
     container_name: MongoDB-Service
@@ -49,7 +67,10 @@ services:
         - ./mongo-init:/docker-entrypoint-initdb.d
 
 
+
+
 networks:
   news-reporter-network:
 volumes:
   mongo-data:  
+

@@ -1,0 +1,6 @@
+@TheNewsReporter.Accessors.AIAssistentService_HostAddress = http://localhost:5063
+
+GET {{TheNewsReporter.Accessors.AIAssistentService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
