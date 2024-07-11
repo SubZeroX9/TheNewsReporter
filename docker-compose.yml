@@ -55,6 +55,22 @@ services:
     networks:
         - news-reporter-network
 
+###########################################################
+##   News Api Manager                                    ##
+###########################################################
+  thenewsreporter.managers.newsapimanager:
+    container_name: News-Api-Manager
+    image: ${DOCKER_REGISTRY-}thenewsreportermanagersnewsapimanager
+    build:
+      context: .
+      dockerfile: Managers/TheNewsReporter.Managers.NewsApiManager/Dockerfile
+    ports:
+        - "5006:8080"
+        - "5007:8081"
+    networks:
+        - news-reporter-network
+ 
+
   mongodb-service:
     container_name: MongoDB-Service
     image: mongo:latest
@@ -69,8 +85,10 @@ services:
 
 
 
+
 networks:
   news-reporter-network:
 volumes:
   mongo-data:  
+
 
