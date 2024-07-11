@@ -49,6 +49,9 @@ services:
     ports:
         - "5004:8080"
         - "5005:8081"
+    environment:
+    - ASPNETCORE_ENVIRONMENT=Development
+    - AIApiSettings__ApiKey=${AI_API_KEY} 
     networks:
         - news-reporter-network
 

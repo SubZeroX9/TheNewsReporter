@@ -1,4 +1,6 @@
 using Microsoft.OpenApi.Models;
+using TheNewsReporter.Accessors.AIAssistentService.Models;
+using TheNewsReporter.Accessors.AIAssistentService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddControllers();
+builder.Services.AddHttpClient<AIAssistantService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
@@ -23,6 +27,12 @@ builder.Services.AddSwaggerGen(
         options.SwaggerDoc("v1", new OpenApiInfo { Title = "AI Assistent Service", Version = "v1" });
     }
     );
+
+builder.Services.Configure<AIApiSettings>(
+    builder.Configuration.GetSection("AIApiSettings"));
+
+builder.Services.AddScoped<AIAssistantService>();
+
 
 var app = builder.Build();
 
