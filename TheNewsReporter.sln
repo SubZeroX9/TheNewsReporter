@@ -20,7 +20,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Accessors.A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Managers", "Managers", "{D2F6556E-DA7B-453A-BE95-FD8C8A03CA9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewsReporter.Managers.NewsApiManager", "Managers\TheNewsReporter.Managers.NewsApiManager\TheNewsReporter.Managers.NewsApiManager.csproj", "{73B31A1E-24F8-456F-A17E-0638D9EA7C7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Managers.NewsApiManager", "Managers\TheNewsReporter.Managers.NewsApiManager\TheNewsReporter.Managers.NewsApiManager.csproj", "{73B31A1E-24F8-456F-A17E-0638D9EA7C7C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{8E37801D-E024-43A9-A911-F6E33B2ECE79}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\config.yaml = dapr\config.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{F603086D-EF31-4C85-92BF-CA8EDB29751A}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\components\userpreferencequeue.yaml = dapr\components\userpreferencequeue.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +67,7 @@ Global
 		{43DC1A13-6FCE-4CB7-98D0-2F42C5D50A6B} = {9B63D942-8CBD-44E8-B753-382CA74F7DB6}
 		{E350436A-F96F-416D-8D9C-EAE84F769227} = {9B63D942-8CBD-44E8-B753-382CA74F7DB6}
 		{73B31A1E-24F8-456F-A17E-0638D9EA7C7C} = {D2F6556E-DA7B-453A-BE95-FD8C8A03CA9F}
+		{F603086D-EF31-4C85-92BF-CA8EDB29751A} = {8E37801D-E024-43A9-A911-F6E33B2ECE79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7699EDD8-A4D4-4861-8C08-6EF866D73686}

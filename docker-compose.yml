@@ -1,6 +1,6 @@
 services:
 ###########################################################
-##   User Preferences Service                            ##
+##   User Preferences Service + Dapr sidecar             ##
 ###########################################################
   thenewsreporter.accessors.userpreferencesservice:
     container_name: User-Preferences-Service
@@ -13,12 +13,35 @@ services:
         - "5001:8081"
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
         - MongoDatabase__ConnectionString=mongodb://mongodb-service:27017
     depends_on:
         - mongodb-service
     networks:
         - news-reporter-network
       
+  thenewsreporter.accessors.userpreferencesservice-dapr:
+    container_name: User-Preferences-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "user-preferences-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "--resources-path","./dapr/components",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.userpreferencesservice
+    network_mode: "service:thenewsreporter.accessors.userpreferencesservice"
+    
 ###########################################################
 ##   News Aggregation Service                            ##
 ###########################################################
@@ -56,7 +79,7 @@ services:
         - news-reporter-network
 
 ###########################################################
-##   News Api Manager                                    ##
+##   News Api Manager +  Dapr sidecar                    ##
 ###########################################################
   thenewsreporter.managers.newsapimanager:
     container_name: News-Api-Manager
@@ -64,11 +87,50 @@ services:
     build:
       context: .
       dockerfile: Managers/TheNewsReporter.Managers.NewsApiManager/Dockerfile
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        # - ASPNETCORE_URLS=http://+:8080
     ports:
         - "5006:8080"
         - "5007:8081"
+    depends_on:
+        - rabbitmq
+        - thenewsreporter.accessors.userpreferencesservice
     networks:
         - news-reporter-network
+
+  thenewsreporter.managers.newsapimanager-dapr:
+    container_name: News-Api-Manager-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "news-api-manager", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "--resources-path","./dapr/components",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.managers.newsapimanager
+    network_mode: "service:thenewsreporter.managers.newsapimanager"
+
+
+
+
+  rabbitmq:
+    image: "rabbitmq:3-management-alpine"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - news-reporter-network
  
 
   mongodb-service:
@@ -88,6 +150,7 @@ services:
 
 networks:
   news-reporter-network:
+    driver: bridge
 volumes:
   mongo-data:  
 
