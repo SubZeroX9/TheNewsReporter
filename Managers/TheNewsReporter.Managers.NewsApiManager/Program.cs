@@ -1,10 +1,11 @@
 using Microsoft.OpenApi.Models;
+using TheNewsReporter.Managers.NewsApiManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddDapr();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
@@ -12,6 +13,11 @@ builder.Services.AddSwaggerGen(
     {
         options.SwaggerDoc("v1", new OpenApiInfo { Title = "News Api Manager", Version = "v1" });
     });
+
+
+builder.Services.AddScoped<AIAssistantService>();
+builder.Services.AddScoped<NewsAggregationService>();
+builder.Services.AddScoped<UserPreferenceService>();
 
 var app = builder.Build();
 
