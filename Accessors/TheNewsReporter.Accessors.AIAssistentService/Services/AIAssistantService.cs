@@ -223,8 +223,14 @@ namespace TheNewsReporter.Accessors.AIAssistentService.Services
             
             AddArticlesToStringBuilder(query.Articles);
 
-            _stringBuilder.AppendLine("3. Based on these articles and the user's preferences, recommend and the ones you recommend summarize those news articles.");
-            _stringBuilder.AppendLine("4. Return the recommendations and summaries in the following JSON format:");
+            _stringBuilder.AppendLine("3. The user's interests are:");
+            AddUserIntrestsToStringBuilder(query);
+
+            _stringBuilder.AppendLine("4. The kind of news the user prefers are:");
+            AddUserNewsPreferencesToStringBuilder(query);
+
+            _stringBuilder.AppendLine("5. Based on these articles and the user's preferences, recommend and the ones you recommend summarize those news articles.");
+            _stringBuilder.AppendLine("6. Return the recommendations and summaries in the following JSON format:");
             _stringBuilder.AppendLine("{\"Result\": [{\"Title\": \"\", \"Description\": \"\", \"Link\": \"\", \"Summary\": \"\"}]}");
             _stringBuilder.AppendLine("7. If User preferences are empty, summarize and recommend the news articles based on the articles provided.");
             _stringBuilder.AppendLine("8. If User Prefernces/Categories Don't align with the articles, Use your own discretion, Better To to return something.");

@@ -18,12 +18,12 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
             _daprClient = daprClient;
         }
 
-        public async Task<List<UserPreference>> GetAllUserPreferences()
+        public async Task<List<Models.UserPreferences.UserPreference>> GetAllUserPreferences()
         {
             _logger.LogInformation("Getting all user preferences in user pref service using dapr");
             try
             {
-                var userPreferences = await _daprClient.InvokeMethodAsync<List<UserPreference>>(HttpMethod.Get, "user-preferences-service", "/alluserpreferences");
+                var userPreferences = await _daprClient.InvokeMethodAsync<List<Models.UserPreferences.UserPreference>>(HttpMethod.Get, "user-preferences-service", "/alluserpreferences");
                 _logger.LogInformation("User preferences retrieved successfully");
                 return userPreferences;
             }
@@ -67,12 +67,12 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
             }
         }
 
-        public async Task<UserPreference> GetUserPreferenceById(string id)
+        public async Task<Models.UserPreferences.UserPreference> GetUserPreferenceById(string id)
         {
             _logger.LogInformation("Getting user preference by id in user pref service using dapr");
             try
             {
-                var userPreference = await _daprClient.InvokeMethodAsync<UserPreference>(HttpMethod.Get, "user-preferences-service", $"/{id}");
+                var userPreference = await _daprClient.InvokeMethodAsync<Models.UserPreferences.UserPreference>(HttpMethod.Get, "user-preferences-service", $"/{id}");
                 _logger.LogInformation("User preference retrieved successfully");
                 return userPreference;
             }

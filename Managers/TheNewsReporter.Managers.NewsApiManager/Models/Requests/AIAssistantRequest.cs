@@ -1,7 +1,8 @@
 ﻿using System.Text.Json.Serialization;
-using TheNewsReporter.Accessors.AIAssistentService.Models.Articles;
+using TheNewsReporter.Managers.NewsApiManager.Models.News;
+using TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences;
 
-namespace TheNewsReporter.Accessors.AIAssistentService.Models.Requests
+namespace TheNewsReporter.Managers.NewsApiManager.Models.Requests
 {
     public class AIAssistantRequest
     {
