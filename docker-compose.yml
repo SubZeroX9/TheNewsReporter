@@ -55,6 +55,24 @@ services:
     networks:
         - news-reporter-network
 
+
+###########################################################
+##   Notification Service                                ##
+###########################################################
+  thenewsreporter.accessors.notificationservice:
+    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsnotificationservice
+    container_name: Notification-Service
+    build:
+      context: .
+      dockerfile: Accessors/TheNewsReporter.Accessors.NotificationService/Dockerfile
+    ports:
+        - "5008:8080"
+        - "5009:8081"    
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+        - news-reporter-network
+
   mongodb-service:
     container_name: MongoDB-Service
     image: mongo:latest
@@ -69,8 +87,10 @@ services:
 
 
 
+
 networks:
   news-reporter-network:
 volumes:
   mongo-data:  
+
 
