@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapr.Client;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using TheNewsReporter.Managers.NewsApiManager.Models.Requests;
 using TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences;
 using TheNewsReporter.Managers.NewsApiManager.Services;
 
@@ -34,8 +37,63 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError("Error in getting user preferences", ex);
+                _logger.LogError("Error in getting user preferences, ex: {ex}", ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error in getting user preferences");
+            }
+        }
+
+        [HttpPost("setpreferences")]
+        public async Task<ActionResult> SetUserPreferences(UserPreferenceAddRequest userPreference)
+        {
+            _logger.LogInformation("Setting user preferences in controller");
+            try
+            {
+                await _userPreferenceService.SetUserPreferences(userPreference);
+                _logger.LogInformation("User preferences set successfully");
+                return Ok("User Preferences Set Succesfuly");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in setting user preferences, ex: {ex}", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error in setting user preferences");
+            }
+        }
+
+        [HttpPut("updateprefes")]
+        public async Task<ActionResult> UpdateUserPreferences(UserPreferenceUpdateRequest userPreference)
+        {
+            _logger.LogInformation("Updating user preferences in controller");
+            try
+            {
+                await _userPreferenceService.UpdateUserPreferences(userPreference);
+                _logger.LogInformation("User preferences updated successfully");
+                return Ok("User Preferences Updated Succesfuly");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in updating user preferences, ex: {ex}", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error in updating user preferences");
+            }
+        }
+
+        [HttpGet("getnews/{id}")]
+        public async Task<ActionResult> GetNews(string id)
+        {
+            _logger.LogInformation("Getting news in controller");
+            try
+            {
+                var userPreferences = await _userPreferenceService.GetUserPreferenceById(id);
+                _logger.LogInformation("User preferences retrieved successfully");
+                var news = await _newsAggregationService.GetNews(userPreferences);
+                _logger.LogInformation("News retrieved successfully");
+                _logger.LogInformation("Returning news, news: {news}",JsonSerializer.Serialize(news));
+                _logger.LogInformation("Sent Proccess Message in Controller Succesfully");
+                return Accepted("Request Accepted News are being proccessed");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in getting news, ex: {ex}", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, "Error in getting news");
             }
         }
     }

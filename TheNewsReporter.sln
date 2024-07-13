@@ -29,7 +29,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{8E37801D-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{F603086D-EF31-4C85-92BF-CA8EDB29751A}"
 	ProjectSection(SolutionItems) = preProject
-		dapr\components\userpreferencequeue.yaml = dapr\components\userpreferencequeue.yaml
+		dapr\components\setuserpreferencesqueue .yaml = dapr\components\setuserpreferencesqueue .yaml
+		dapr\components\getnewsqueue.yaml = dapr\components\getnewsqueue.yaml
+		dapr\components\updateuserpreferencesqueue.yaml = dapr\components\updateuserpreferencesqueue.yaml
 	EndProjectSection
 EndProject
 Global
