@@ -37,6 +37,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences
         [JsonIgnore]
         public Channel ChannelEnum { get; set; } = Channel.NULL;
 
+        [JsonPropertyName("details")]
         public Dictionary<string, string>? Details { get; set; }
     }
 }

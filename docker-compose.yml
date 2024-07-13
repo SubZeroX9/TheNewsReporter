@@ -34,7 +34,8 @@ services:
         "-app-id", "user-preferences-service", 
         "-app-protocol", "http",
         "-dapr-http-port", "3500", 
-        "--resources-path","./dapr/components",
+        "-resources-path","./dapr/components",
+        "-placement-host-address", "placement:50006",
         "-config", "dapr/config.yaml"]
     volumes:
         - "./dapr:/dapr" 
@@ -42,8 +43,9 @@ services:
         - thenewsreporter.accessors.userpreferencesservice
     network_mode: "service:thenewsreporter.accessors.userpreferencesservice"
     
+
 ###########################################################
-##   News Aggregation Service                            ##
+##   News Aggregation Service + Dapr sidecar             ##
 ###########################################################
   thenewsreporter.accessors.newsaggregationservice:
     container_name: News-Aggregation-Service
@@ -56,12 +58,36 @@ services:
         - "5003:8081"
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
         - NewsApiSettings__ApiKey=${NEWS_API_KEY}
     networks:
         - news-reporter-network
- 
+  
+  thenewsreporter.accessors.newsaggregationservice-dapr:
+    container_name: News-Aggregation-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "news-aggregation-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "-resources-path","./dapr/components",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.newsaggregationservice
+    network_mode: "service:thenewsreporter.accessors.newsaggregationservice"
+
+
 ###########################################################
-##   AI Assistent Service                                ##
+##   AI Assistent Service + Dapr sidecar                 ##
 ###########################################################
   thenewsreporter.accessors.aiassistentservice:
     container_name: AI-Assistent-Service
@@ -74,12 +100,36 @@ services:
         - "5005:8081"
     environment:
     - ASPNETCORE_ENVIRONMENT=Development
+    - ASPNETCORE_URLS=http://+:8080
     - AIApiSettings__ApiKey=${AI_API_KEY} 
     networks:
         - news-reporter-network
 
+  thenewsreporter.accessors.aiassistentservice-dapr:
+    container_name: AI-Assistent-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "ai-assistent-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "-resources-path","./dapr/components",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.aiassistentservice
+    network_mode: "service:thenewsreporter.accessors.aiassistentservice"
+
+
 ###########################################################
-##   News Api Manager +  Dapr sidecar                    ##
+##   News Api Manager + Dapr sidecar                     ##
 ###########################################################
   thenewsreporter.managers.newsapimanager:
     container_name: News-Api-Manager
@@ -89,13 +139,15 @@ services:
       dockerfile: Managers/TheNewsReporter.Managers.NewsApiManager/Dockerfile
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        # - ASPNETCORE_URLS=http://+:8080
+        - ASPNETCORE_URLS=http://+:8080
     ports:
         - "5006:8080"
         - "5007:8081"
     depends_on:
         - rabbitmq
         - thenewsreporter.accessors.userpreferencesservice
+        - thenewsreporter.accessors.newsaggregationservice 
+        - thenewsreporter.accessors.aiassistentservice
     networks:
         - news-reporter-network
 
@@ -113,15 +165,14 @@ services:
         "-app-id", "news-api-manager", 
         "-app-protocol", "http",
         "-dapr-http-port", "3500", 
-        "--resources-path","./dapr/components",
+        "-resources-path","./dapr/components",
+        "-placement-host-address", "placement:50006",
         "-config", "dapr/config.yaml"]
     volumes:
         - "./dapr:/dapr" 
     depends_on:
         - thenewsreporter.managers.newsapimanager
     network_mode: "service:thenewsreporter.managers.newsapimanager"
-
-
 
 
   rabbitmq:
