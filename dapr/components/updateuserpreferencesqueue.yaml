@@ -10,10 +10,12 @@ spec:
     value: "amqp://rabbitmq:5672"
   - name: queueName
     value: updateuserpreferencesqueue
+  - name: vhost
+    value: /
   - name: durable
-    value: false
-  - name: deleteWhenUnused
     value: true
+  - name: deleteWhenUnused
+    value: false
   - name: ttlInSeconds
     value: 5
   - name: prefetchCount

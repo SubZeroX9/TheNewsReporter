@@ -86,7 +86,13 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
                 _logger.LogInformation("User preferences retrieved successfully");
                 var news = await _newsAggregationService.GetNews(userPreferences);
                 _logger.LogInformation("News retrieved successfully");
-                _logger.LogInformation("Returning news, news: {news}",JsonSerializer.Serialize(news));
+
+                _logger.LogInformation("#######################################");
+
+                var articles = await _aiAssistantService.GetArticles(userPreferences, news);
+                _logger.LogInformation("Returning articles from AI Assistant service");
+                _logger.LogInformation("Articles: {articles}", JsonSerializer.Serialize(articles));
+
                 _logger.LogInformation("Sent Proccess Message in Controller Succesfully");
                 return Accepted("Request Accepted News are being proccessed");
             }
