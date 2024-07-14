@@ -16,7 +16,9 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Accessors.NewsAggregationService", "Accessors\TheNewsReporter.Accessors.NewsAggregationService\TheNewsReporter.Accessors.NewsAggregationService.csproj", "{43DC1A13-6FCE-4CB7-98D0-2F42C5D50A6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewsReporter.Accessors.AIAssistentService", "Accessors\TheNewsReporter.Accessors.AIAssistentService\TheNewsReporter.Accessors.AIAssistentService.csproj", "{E350436A-F96F-416D-8D9C-EAE84F769227}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Accessors.AIAssistentService", "Accessors\TheNewsReporter.Accessors.AIAssistentService\TheNewsReporter.Accessors.AIAssistentService.csproj", "{E350436A-F96F-416D-8D9C-EAE84F769227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewsReporter.Accessors.NotificationApiService", "Accessors\TheNewsReporter.Accessors.NotificationService\TheNewsReporter.Accessors.NotificationApiService.csproj", "{8629B1F9-8765-44AD-91ED-7F52C97ECCF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{E350436A-F96F-416D-8D9C-EAE84F769227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E350436A-F96F-416D-8D9C-EAE84F769227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E350436A-F96F-416D-8D9C-EAE84F769227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8629B1F9-8765-44AD-91ED-7F52C97ECCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8629B1F9-8765-44AD-91ED-7F52C97ECCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8629B1F9-8765-44AD-91ED-7F52C97ECCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8629B1F9-8765-44AD-91ED-7F52C97ECCF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{76C7EE46-0DD3-4116-BC6A-B30CA41CC5CF} = {9B63D942-8CBD-44E8-B753-382CA74F7DB6}
 		{43DC1A13-6FCE-4CB7-98D0-2F42C5D50A6B} = {9B63D942-8CBD-44E8-B753-382CA74F7DB6}
 		{E350436A-F96F-416D-8D9C-EAE84F769227} = {9B63D942-8CBD-44E8-B753-382CA74F7DB6}
+		{8629B1F9-8765-44AD-91ED-7F52C97ECCF8} = {9B63D942-8CBD-44E8-B753-382CA74F7DB6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7699EDD8-A4D4-4861-8C08-6EF866D73686}
