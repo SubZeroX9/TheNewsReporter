@@ -70,6 +70,7 @@ services:
         - "5009:8081"    
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
+        - MailGunApiSettings__ApiKey=${MAILGUN_API_KEY}
     networks:
         - news-reporter-network
 

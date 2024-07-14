@@ -1,4 +1,6 @@
 using Microsoft.OpenApi.Models;
+using TheNewsReporter.Accessors.NotificationApiService.Models;
+using TheNewsReporter.Accessors.NotificationApiService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,15 @@ builder.Services.AddSwaggerGen(
         options.SwaggerDoc("v1", new OpenApiInfo { Title = "Notification Service", Version = "v1" });
     }
     );
+
+builder.Services.Configure<MailGunApiSettings>(
+    builder.Configuration.GetSection("MailGunApiSettings"));
+
+builder.Services.AddHttpClient<MailgunNotificationService>();
+
+builder.Services.AddScoped<MailgunNotificationService>();
+
+builder.Services.AddScoped<NotificationService>();
 
 var app = builder.Build();
 
