@@ -18,7 +18,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Accessors.N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Accessors.AIAssistentService", "Accessors\TheNewsReporter.Accessors.AIAssistentService\TheNewsReporter.Accessors.AIAssistentService.csproj", "{E350436A-F96F-416D-8D9C-EAE84F769227}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewsReporter.Accessors.NotificationService", "Accessors\TheNewsReporter.Accessors.NotificationService\TheNewsReporter.Accessors.NotificationService.csproj", "{8629B1F9-8765-44AD-91ED-7F52C97ECCF8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheNewsReporter.Accessors.NotificationApiService", "Accessors\TheNewsReporter.Accessors.NotificationService\TheNewsReporter.Accessors.NotificationApiService.csproj", "{8629B1F9-8765-44AD-91ED-7F52C97ECCF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
