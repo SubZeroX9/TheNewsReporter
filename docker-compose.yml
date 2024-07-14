@@ -111,6 +111,7 @@ services:
     networks:
         - news-reporter-network
 
+
   thenewsreporter.accessors.aiassistentservice-dapr:
     container_name: AI-Assistent-Service-Dapr
     image: "daprio/daprd:edge"
@@ -182,6 +183,25 @@ services:
     network_mode: "service:thenewsreporter.managers.newsapimanager"
 
 
+###########################################################
+##   Notification Service                                ##
+###########################################################
+  thenewsreporter.accessors.notificationservice:
+    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsnotificationservice
+    container_name: Notification-Service
+    build:
+      context: .
+      dockerfile: Accessors/TheNewsReporter.Accessors.NotificationService/Dockerfile
+    ports:
+        - "5008:8080"
+        - "5009:8081"    
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - MailGunApiSettings__ApiKey=${MAILGUN_API_KEY}
+    networks:
+        - news-reporter-network
+
+
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
@@ -189,7 +209,7 @@ services:
       - "15672:15672"
     networks:
       - news-reporter-network
- 
+
 
   mongodb-service:
     container_name: MongoDB-Service
