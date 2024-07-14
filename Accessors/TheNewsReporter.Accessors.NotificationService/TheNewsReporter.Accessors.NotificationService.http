@@ -1,0 +1,6 @@
+@TheNewsReporter.Accessors.NotificationService_HostAddress = http://localhost:5064
+
+GET {{TheNewsReporter.Accessors.NotificationService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

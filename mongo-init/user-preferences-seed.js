@@ -11,7 +11,7 @@ db.UserPreferences.insertMany([
         "communication_channel": {
             "channel": "Email",
             "details": {
-                "email": "user1@example.com"
+                "email": "rafael.azrv@gmail.com"
             }
         }
     },
