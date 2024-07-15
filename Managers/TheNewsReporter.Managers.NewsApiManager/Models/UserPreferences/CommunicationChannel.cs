@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TheNewsReporter.Accessors.NotificationApiService.Models
+namespace TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences
 {
     public enum Channel
     {

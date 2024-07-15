@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TheNewsReporter.Accessors.AIAssistentService.Models.Articles
+namespace TheNewsReporter.Managers.NewsApiManager.Models.News
 {
     public class NewsArticle
     {

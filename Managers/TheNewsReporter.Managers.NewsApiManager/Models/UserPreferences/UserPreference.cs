@@ -1,9 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace TheNewsReporter.Accessors.UserPreferencesService.Models
+namespace TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences
 {
-    public record UserPreferenceAddRequest
+    public class UserPreference
     {
+        public string? Id { get; set; }
+
         [JsonPropertyName("user_id")]
         public string? UserId { get; set; }
 

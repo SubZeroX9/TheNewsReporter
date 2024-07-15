@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapr;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TheNewsReporter.Accessors.AIAssistentService.Models.Requests;
 using TheNewsReporter.Accessors.AIAssistentService.Models.Responses;
@@ -6,7 +7,7 @@ using TheNewsReporter.Accessors.AIAssistentService.Services;
 
 namespace TheNewsReporter.Accessors.AIAssistentService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AIAssistantController : ControllerBase
     {
@@ -55,8 +56,8 @@ namespace TheNewsReporter.Accessors.AIAssistentService.Controllers
             }
         }
 
-        [HttpPost("recommend-and-summerize")]
-        public async Task<ActionResult<AIAssistantRecAndSumResponse>> RecommendAndSummarizeNews([FromBody] AIAssistantRequest query)
+        [HttpPost("/recommendandsummerizequeue")]
+        public async Task<ActionResult<AIAssistantRecAndSumResponse>> RecommendAndSummarizeNews([FromBody]AIAssistantRequest query)
         {
             _logger.LogInformation("Recommending and summarizing news in Controller");
             try

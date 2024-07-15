@@ -2,8 +2,9 @@
 
 namespace TheNewsReporter.Accessors.AIAssistentService.Models
 {
-    public class UserPreferences
+    public class Preferences
     {
+        [JsonPropertyName("categories")]
         public List<string> Categories { get; set; }
         
         [JsonPropertyName("news_preferences")]
