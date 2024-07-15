@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen(
 builder.Services.AddScoped<AIAssistantService>();
 builder.Services.AddScoped<NewsAggregationService>();
 builder.Services.AddScoped<UserPreferenceService>();
+builder.Services.AddScoped<NotificationService>();
 
 var app = builder.Build();
 

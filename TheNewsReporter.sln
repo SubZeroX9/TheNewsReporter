@@ -30,7 +30,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{F603086D-EF31-4C85-92BF-CA8EDB29751A}"
 	ProjectSection(SolutionItems) = preProject
 		dapr\components\recommendandsummerizequeue.yaml = dapr\components\recommendandsummerizequeue.yaml
+		dapr\components\notification-pub-sub.yaml = dapr\components\notification-pub-sub.yaml
 		dapr\components\setuserpreferencesqueue .yaml = dapr\components\setuserpreferencesqueue .yaml
+		dapr\components\subscription.yaml = dapr\components\subscription.yaml
 		dapr\components\updateuserpreferencesqueue.yaml = dapr\components\updateuserpreferencesqueue.yaml
 	EndProjectSection
 EndProject

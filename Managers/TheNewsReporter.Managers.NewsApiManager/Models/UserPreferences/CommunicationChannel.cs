@@ -18,7 +18,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences
     public class CommunicationChannel
     {
         [JsonPropertyName("channel")]
-        public string? ComChannel
+        public string ComChannel
         {
             get => Enum.GetName(typeof(Channel), ChannelEnum);
             set
@@ -38,6 +38,6 @@ namespace TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences
         public Channel ChannelEnum { get; set; } = Channel.NULL;
 
         [JsonPropertyName("details")]
-        public Dictionary<string, string>? Details { get; set; }
+        public Dictionary<string, string> Details { get; set; }
     }
 }

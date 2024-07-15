@@ -1,6 +1,0 @@
-@TheNewsReporter.Managers.NewsApiManager_HostAddress = http://localhost:5020
-
-GET {{TheNewsReporter.Managers.NewsApiManager_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

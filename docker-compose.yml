@@ -36,7 +36,7 @@ services:
         "-app-protocol", "http",
         "-dapr-http-port", "3500", 
         "-resources-path","./dapr/components",
-        "-placement-host-address", "placement:50006",
+        # "-placement-host-address", "placement:50006",
         "-config", "dapr/config.yaml"]
     volumes:
         - "./dapr:/dapr" 
@@ -80,7 +80,7 @@ services:
         "-app-id", "news-aggregation-service", 
         "-app-protocol", "http",
         "-dapr-http-port", "3500", 
-        "-placement-host-address", "placement:50006",
+        # "-placement-host-address", "placement:50006",
         "-resources-path","./dapr/components",
         "-config", "dapr/config.yaml"]
     volumes:
@@ -126,7 +126,7 @@ services:
         "-app-id", "ai-assistant-service", 
         "-app-protocol", "http",
         "-dapr-http-port", "3500", 
-        "-placement-host-address", "placement:50006",
+        # "-placement-host-address", "placement:50006",
         "-resources-path","./dapr/components",
         "-config", "dapr/config.yaml"]
     volumes:
@@ -156,6 +156,7 @@ services:
         - thenewsreporter.accessors.userpreferencesservice
         - thenewsreporter.accessors.newsaggregationservice
         - thenewsreporter.accessors.aiassistentservice
+        - thenewsreporter.accessors.notificationservice
     networks:
         - news-reporter-network
 
@@ -174,7 +175,7 @@ services:
         "-app-protocol", "http",
         "-dapr-http-port", "3500", 
         "-resources-path","./dapr/components",
-        "-placement-host-address", "placement:50006",
+        # "-placement-host-address", "placement:50006",
         "-config", "dapr/config.yaml"]
     volumes:
         - "./dapr:/dapr" 
@@ -184,7 +185,7 @@ services:
 
 
 ###########################################################
-##   Notification Service                                ##
+##   Notification Service + Dapr sidecar                 ##
 ###########################################################
   thenewsreporter.accessors.notificationservice:
     image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsnotificationservice
@@ -197,11 +198,38 @@ services:
         - "5009:8081"    
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
         - MailGunApiSettings__ApiKey=${MAILGUN_API_KEY}
     networks:
         - news-reporter-network
 
+  thenewsreporter.accessors.notificationservice-dapr:
+    container_name: Notification-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "notification-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "-resources-path","./dapr/components",
+        # "-placement-host-address", "placement:50006",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.notificationservice
+    network_mode: "service:thenewsreporter.accessors.notificationservice"
 
+
+###########################################################
+##   RabbitMQ Service                                    ##
+###########################################################
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
@@ -210,7 +238,9 @@ services:
     networks:
       - news-reporter-network
 
-
+###########################################################
+##   MongoDB Service                                     ##
+###########################################################
   mongodb-service:
     container_name: MongoDB-Service
     image: mongo:latest
@@ -221,9 +251,6 @@ services:
     volumes:
         - mongo-data:/data/db
         - ./mongo-init:/docker-entrypoint-initdb.d
-
-
-
 
 
 networks:

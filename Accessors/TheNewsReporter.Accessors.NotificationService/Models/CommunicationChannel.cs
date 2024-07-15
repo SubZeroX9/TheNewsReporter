@@ -18,7 +18,7 @@ namespace TheNewsReporter.Accessors.NotificationApiService.Models
     public class CommunicationChannel
     {
         [JsonPropertyName("channel")]
-        public required string ComChannel
+        public string ComChannel
         {
             get => Enum.GetName(typeof(Channel), ChannelEnum);
             set
@@ -37,6 +37,7 @@ namespace TheNewsReporter.Accessors.NotificationApiService.Models
         [JsonIgnore]
         public Channel ChannelEnum { get; set; } = Channel.NULL;
 
-        public required Dictionary<string, string> Details { get; set; }
+        [JsonPropertyName("details")]
+        public Dictionary<string, string> Details { get; set; }
     }
 }
