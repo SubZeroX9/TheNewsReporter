@@ -24,3 +24,5 @@ spec:
     value: false
   - name: maxPriority
     value: 5
+# scopes:
+#     - ai-assistant-service 

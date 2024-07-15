@@ -16,13 +16,15 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
         private readonly AIAssistantService _aiAssistantService;
         private readonly NewsAggregationService _newsAggregationService;
         private readonly UserPreferenceService _userPreferenceService;
+        private readonly NotificationService _notificationService;
 
-        public NewsApiController(ILogger<NewsApiController> logger, AIAssistantService aiAssistantService, NewsAggregationService newsAggregationService, UserPreferenceService userPreferenceService)
+        public NewsApiController(ILogger<NewsApiController> logger, AIAssistantService aiAssistantService, NewsAggregationService newsAggregationService, UserPreferenceService userPreferenceService, NotificationService notificationService)
         {
             _logger = logger;
             _aiAssistantService = aiAssistantService;
             _newsAggregationService = newsAggregationService;
             _userPreferenceService = userPreferenceService;
+            _notificationService = notificationService;
         }
 
         [HttpGet("allprefes")]
@@ -92,6 +94,8 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
                 var articles = await _aiAssistantService.GetArticles(userPreferences, news);
                 _logger.LogInformation("Returning articles from AI Assistant service");
                 _logger.LogInformation("Articles: {articles}", JsonSerializer.Serialize(articles));
+
+                await _notificationService.SendNotificationAsync(userPreferences.CommunicationChannel, articles);
 
                 _logger.LogInformation("Sent Proccess Message in Controller Succesfully");
                 return Accepted("Request Accepted News are being proccessed");

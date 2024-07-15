@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Dapr;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.Text.Json;
 using TheNewsReporter.Accessors.NotificationApiService.Models;
 using TheNewsReporter.Accessors.NotificationApiService.Services;
 
 namespace TheNewsReporter.Accessors.NotificationApiService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/api/[controller]")]
     [ApiController]
     public class NotificationController : ControllerBase
     {
@@ -18,13 +20,18 @@ namespace TheNewsReporter.Accessors.NotificationApiService.Controllers
             _notificationService = notificationService;
         }
 
-        [HttpPost("/send-notification")]
-        public async Task<IActionResult> SendNotificationAsync([FromBody] NotificationRequest notificationRequest)
+        [Topic("notification-pub-sub", "notifications")]
+        [HttpPost("/sendnotification")]
+        public async Task<IActionResult> SendNotificationAsync([FromBody] CloudEvent<NotificationRequest> notificationRequest)
         {
             _logger.LogInformation("Sending notification In Controller");
+
             try
             {
-                bool result = await _notificationService.SendNotificationAsync(notificationRequest);
+
+                _logger.LogInformation("notificationRequest recived: {notificationRequest}",JsonSerializer.Serialize(notificationRequest.Data));
+
+                bool result = await _notificationService.SendNotificationAsync(notificationRequest.Data);
 
                 if (!result)
                 {
