@@ -37,7 +37,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
                     Articles = news
                 };
 
-                var response = await _daprClient.InvokeMethodAsync<AIAssistantRequest, AIAssistantRecAndSumResponse>("ai-assistant-service", "/recommendandsummerize", aiAssistantRequest);
+                var response = await _daprClient.InvokeMethodAsync<AIAssistantRequest, AIAssistantRecAndSumResponse>("ai-assistant-service", "/recommendandsummerizequeue", aiAssistantRequest);
 
                 //await _daprClient.InvokeBindingAsync < AIAssistantRequest("recommendandsummerizequeue", "create", aiAssistantRequest);
 
