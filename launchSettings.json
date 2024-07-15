@@ -6,7 +6,9 @@
       "serviceActions": {
         "thenewsreporter.accessors.userpreferencesservice": "StartDebugging",
         "thenewsreporter.accessors.newsaggregationservice": "StartDebugging",
-        "thenewsreporter.accessors.aiassistentservice": "StartDebugging"
+        "thenewsreporter.accessors.aiassistentservice": "StartDebugging",
+        "thenewsreporter.managers.newsapimanager": "StartDebugging",
+        "thenewsreporter.accessors.notificationservice": "StartDebugging"
       }
     }
   }

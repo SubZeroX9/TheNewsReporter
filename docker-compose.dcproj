@@ -7,7 +7,7 @@
     <ProjectGuid>5ec5c38a-70d2-4f1e-9163-2ed2b761cf9b</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/</DockerServiceUrl>
-    <DockerServiceName>thenewsreporter.accessors.aiassistentservice</DockerServiceName>
+    <DockerServiceName>thenewsreporter.managers.newsapimanager</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
