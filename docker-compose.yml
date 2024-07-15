@@ -1,6 +1,6 @@
 services:
 ###########################################################
-##   User Preferences Service                            ##
+##   User Preferences Service + Dapr sidecar             ##
 ###########################################################
   thenewsreporter.accessors.userpreferencesservice:
     container_name: User-Preferences-Service
@@ -13,14 +13,40 @@ services:
         - "5001:8081"
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
         - MongoDatabase__ConnectionString=mongodb://mongodb-service:27017
     depends_on:
         - mongodb-service
+        - rabbitmq
     networks:
         - news-reporter-network
       
+  thenewsreporter.accessors.userpreferencesservice-dapr:
+    container_name: User-Preferences-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "user-preferences-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "-resources-path","./dapr/components",
+        # "-placement-host-address", "placement:50006",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.userpreferencesservice
+    network_mode: "service:thenewsreporter.accessors.userpreferencesservice"
+    
+
 ###########################################################
-##   News Aggregation Service                            ##
+##   News Aggregation Service + Dapr sidecar             ##
 ###########################################################
   thenewsreporter.accessors.newsaggregationservice:
     container_name: News-Aggregation-Service
@@ -33,12 +59,39 @@ services:
         - "5003:8081"
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
         - NewsApiSettings__ApiKey=${NEWS_API_KEY}
+    depends_on:
+        - rabbitmq
     networks:
         - news-reporter-network
- 
+  
+  thenewsreporter.accessors.newsaggregationservice-dapr:
+    container_name: News-Aggregation-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "news-aggregation-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        # "-placement-host-address", "placement:50006",
+        "-resources-path","./dapr/components",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.newsaggregationservice
+    network_mode: "service:thenewsreporter.accessors.newsaggregationservice"
+
+
 ###########################################################
-##   AI Assistent Service                                ##
+##   AI Assistent Service + Dapr sidecar                 ##
 ###########################################################
   thenewsreporter.accessors.aiassistentservice:
     container_name: AI-Assistent-Service
@@ -50,11 +103,144 @@ services:
         - "5004:8080"
         - "5005:8081"
     environment:
-    - ASPNETCORE_ENVIRONMENT=Development
-    - AIApiSettings__ApiKey=${AI_API_KEY} 
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
+        - AIApiSettings__ApiKey=${AI_API_KEY} 
+    depends_on:
+        - rabbitmq
     networks:
         - news-reporter-network
 
+
+  thenewsreporter.accessors.aiassistentservice-dapr:
+    container_name: AI-Assistent-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "ai-assistant-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        # "-placement-host-address", "placement:50006",
+        "-resources-path","./dapr/components",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.aiassistentservice
+    network_mode: "service:thenewsreporter.accessors.aiassistentservice"
+
+
+###########################################################
+##   News Api Manager + Dapr sidecar                     ##
+###########################################################
+  thenewsreporter.managers.newsapimanager:
+    container_name: News-Api-Manager
+    image: ${DOCKER_REGISTRY-}thenewsreportermanagersnewsapimanager
+    build:
+      context: .
+      dockerfile: Managers/TheNewsReporter.Managers.NewsApiManager/Dockerfile
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
+    ports:
+        - "5006:8080"
+        - "5007:8081"
+    depends_on:
+        - rabbitmq
+        - thenewsreporter.accessors.userpreferencesservice
+        - thenewsreporter.accessors.newsaggregationservice
+        - thenewsreporter.accessors.aiassistentservice
+        - thenewsreporter.accessors.notificationservice
+    networks:
+        - news-reporter-network
+
+  thenewsreporter.managers.newsapimanager-dapr:
+    container_name: News-Api-Manager-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "news-api-manager", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "-resources-path","./dapr/components",
+        # "-placement-host-address", "placement:50006",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.managers.newsapimanager
+    network_mode: "service:thenewsreporter.managers.newsapimanager"
+
+
+###########################################################
+##   Notification Service + Dapr sidecar                 ##
+###########################################################
+  thenewsreporter.accessors.notificationservice:
+    image: ${DOCKER_REGISTRY-}thenewsreporteraccessorsnotificationservice
+    container_name: Notification-Service
+    build:
+      context: .
+      dockerfile: Accessors/TheNewsReporter.Accessors.NotificationService/Dockerfile
+    ports:
+        - "5008:8080"
+        - "5009:8081"    
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=http://+:8080
+        - MailGunApiSettings__ApiKey=${MAILGUN_API_KEY}
+    networks:
+        - news-reporter-network
+
+  thenewsreporter.accessors.notificationservice-dapr:
+    container_name: Notification-Service-Dapr
+    image: "daprio/daprd:edge"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+        window: 120s
+    command: ["./daprd",
+        "-app-port", "8080",
+        "-app-id", "notification-service", 
+        "-app-protocol", "http",
+        "-dapr-http-port", "3500", 
+        "-resources-path","./dapr/components",
+        # "-placement-host-address", "placement:50006",
+        "-config", "dapr/config.yaml"]
+    volumes:
+        - "./dapr:/dapr" 
+    depends_on:
+        - thenewsreporter.accessors.notificationservice
+    network_mode: "service:thenewsreporter.accessors.notificationservice"
+
+
+###########################################################
+##   RabbitMQ Service                                    ##
+###########################################################
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - news-reporter-network
+
+###########################################################
+##   MongoDB Service                                     ##
+###########################################################
   mongodb-service:
     container_name: MongoDB-Service
     image: mongo:latest
@@ -67,10 +253,10 @@ services:
         - ./mongo-init:/docker-entrypoint-initdb.d
 
 
-
-
 networks:
   news-reporter-network:
+    driver: bridge
 volumes:
   mongo-data:  
+
 
