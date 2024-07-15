@@ -6,7 +6,9 @@ namespace TheNewsReporter.Accessors.AIAssistentService.Models.Requests
     public class AIAssistantRequest
     {
         [JsonPropertyName("user_preferences")]
-        public UserPreferences UserPreferences { get; set; }
+        public Preferences UserPreferences { get; set; }
+
+        [JsonPropertyName("articles")]
         public List<NewsArticle> Articles { get; set; }
     }
 }
