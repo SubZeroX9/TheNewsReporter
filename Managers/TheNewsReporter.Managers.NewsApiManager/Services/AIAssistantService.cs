@@ -19,7 +19,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
             _daprClient = daprClient;
         }
 
-        public async Task<AIAssistantRecAndSumResponse> GetArticles(UserPreference userPreferences, List<NewsArticle> news)
+        public async Task<AIAssistantRecAndSumResponse> GetArticlesRecomendations(UserPreference userPreferences, List<NewsArticle> news)
         {
             _logger.LogInformation("Getting articles from AI Assistant service");
             try
@@ -37,7 +37,10 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
                     Articles = news
                 };
 
-                var response = await _daprClient.InvokeMethodAsync<AIAssistantRequest, AIAssistantRecAndSumResponse>("ai-assistant-service", "/recommendandsummerizequeue", aiAssistantRequest);
+                var response = await _daprClient.InvokeMethodAsync<AIAssistantRequest, AIAssistantRecAndSumResponse>("ai-assistant-service", "/recommendandsummerize", aiAssistantRequest);
+
+                //await _daprClient.InvokeBindingAsync < AIAssistantRequest("recommendandsummerizequeue", "create", aiAssistantRequest);
+
 
                 _logger.LogInformation("Articles retrieved successfully from AI Assistant service");
                 return response;

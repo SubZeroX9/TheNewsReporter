@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: updateuserpreferencesqueue
+    name: updatepreferencequeue
 spec:
   type: bindings.rabbitmq
   version: v1
@@ -9,7 +9,7 @@ spec:
   - name: host
     value: "amqp://rabbitmq:5672"
   - name: queueName
-    value: updateuserpreferencesqueue
+    value: updatepreferencequeue
   - name: vhost
     value: /
   - name: durable
@@ -17,12 +17,10 @@ spec:
   - name: deleteWhenUnused
     value: false
   - name: ttlInSeconds
-    value: 5
+    value: 60
   - name: prefetchCount
     value: 3
   - name: exclusive
     value: false
   - name: maxPriority
     value: 5
-# scopes:
-#   - user-preferences-service

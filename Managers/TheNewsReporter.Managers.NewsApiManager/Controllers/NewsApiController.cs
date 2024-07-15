@@ -91,7 +91,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
 
                 _logger.LogInformation("#######################################");
 
-                var articles = await _aiAssistantService.GetArticles(userPreferences, news);
+                var articles = await _aiAssistantService.GetArticlesRecomendations(userPreferences, news);
                 _logger.LogInformation("Returning articles from AI Assistant service");
                 _logger.LogInformation("Articles: {articles}", JsonSerializer.Serialize(articles));
 

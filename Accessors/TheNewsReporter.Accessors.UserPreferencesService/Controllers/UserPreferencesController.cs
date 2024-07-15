@@ -167,8 +167,8 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
             }
         }
 
-        [HttpPut("/updateuserpreferencesqueue")]
-        public async Task<ActionResult> UpdateUserPreferences([FromBody] UserPreferenceUpdateRequest userPreferences)
+        [HttpPost("/updatepreferencequeue")]
+        public async Task<IActionResult> UpdateUserPreferences([FromBody] UserPreferenceUpdateRequest userPreferences)
         {
             try
             {
