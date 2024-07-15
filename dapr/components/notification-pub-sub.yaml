@@ -1,0 +1,29 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: notification-pub-sub
+spec:
+  type: pubsub.rabbitmq
+  version: v1
+  metadata:
+  - name: host
+    value: "amqp://rabbitmq:5672"
+  - name: deletedWhenUnused
+    value: false
+  - name: ttlInSeconds
+    value: 60
+  - name: prefetchCount
+    value: 3
+  - name: autoAck
+    value: false
+  - name: reconnectWait
+    value: "3000"
+  - name: durable
+    value: true
+  - name: maxPriority
+    value: 5
+  - name: concurrencyMode
+    value: parallel
+scopes:
+  - notification-service
+  - news-api-manager

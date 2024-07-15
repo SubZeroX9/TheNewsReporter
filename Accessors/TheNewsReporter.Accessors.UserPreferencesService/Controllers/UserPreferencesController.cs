@@ -6,7 +6,7 @@ using TheNewsReporter.Accessors.UserPreferencesService.Services;
 
 namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class UserPreferencesController : ControllerBase
     {
@@ -20,7 +20,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
         }
 
         #region Complete_preferences_operations
-        [HttpGet("alluserpreferences")]
+        [HttpGet("/alluserpreferences")]
         public async Task<ActionResult<List<UserPreferences>>> GetAllUserPreferences()
         {
             try
@@ -48,7 +48,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("/{id}")]
         public async Task<ActionResult<UserPreferences>> GetUserPreferences(string id)
         {
             try
@@ -75,7 +75,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
             }
         }
 
-        [HttpPost("add")]
+        [HttpPost("/setuserpreferencesqueue")]
         public async Task<ActionResult> AddUserPreference([FromBody] UserPreferenceAddRequest userPreferences)
         {
             try
@@ -167,7 +167,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
             }
         }
 
-        [HttpPut("updateuserpreferences")]
+        [HttpPut("/updateuserpreferencesqueue")]
         public async Task<ActionResult> UpdateUserPreferences([FromBody] UserPreferenceUpdateRequest userPreferences)
         {
             try
@@ -184,7 +184,7 @@ namespace TheNewsReporter.Accessors.UserPreferencesService.Controllers
             }
             catch (MongoException ex)
             {
-                _logger.LogError("MongoDB error while updating user preferences for user with id {id}: {ex}", userPreferences.UserId, ex);
+                _logger.LogError("MongoDB error while updating user preferences for user with id {id}: {ex}", userPreferences.UserId, ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Database error occurred. Please contact support.");
             }
             catch (Exception ex)
