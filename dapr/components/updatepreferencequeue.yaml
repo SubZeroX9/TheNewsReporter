@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: recommendandsummerizequeue
+    name: updatepreferencequeue
 spec:
   type: bindings.rabbitmq
   version: v1
@@ -9,7 +9,7 @@ spec:
   - name: host
     value: "amqp://rabbitmq:5672"
   - name: queueName
-    value: recommendandsummerizequeue
+    value: updatepreferencequeue
   - name: vhost
     value: /
   - name: durable
@@ -24,5 +24,3 @@ spec:
     value: false
   - name: maxPriority
     value: 5
-# scopes:
-#     - ai-assistant-service 
