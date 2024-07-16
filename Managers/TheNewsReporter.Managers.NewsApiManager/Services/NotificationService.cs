@@ -27,7 +27,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
             NotificationRequest notificationRequest = new NotificationRequest
             {
                 Channel = communicationChannel,
-                Message = articles.Result.Count > 0 ? BuildNotificationMessage(articles.Result) : BuildEmptyNotificationMessage()
+                Message = articles!= null && articles.Result.Count > 0 ? BuildNotificationMessage(articles.Result) : BuildEmptyNotificationMessage()
             };
 
             try

@@ -29,11 +29,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dapr", "dapr", "{8E37801D-E
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{F603086D-EF31-4C85-92BF-CA8EDB29751A}"
 	ProjectSection(SolutionItems) = preProject
-		dapr\components\recommendandsummerizequeue.yaml = dapr\components\recommendandsummerizequeue.yaml
 		dapr\components\notification-pub-sub.yaml = dapr\components\notification-pub-sub.yaml
+		dapr\components\processgetnewsqueue.yaml = dapr\components\processgetnewsqueue.yaml
+		dapr\components\recommendandsummerizequeue.yaml = dapr\components\recommendandsummerizequeue.yaml
 		dapr\components\setuserpreferencesqueue .yaml = dapr\components\setuserpreferencesqueue .yaml
 		dapr\components\subscription.yaml = dapr\components\subscription.yaml
-		dapr\components\updateuserpreferencesqueue.yaml = dapr\components\updateuserpreferencesqueue.yaml
+		dapr\components\updatepreferencequeue.yaml = dapr\components\updatepreferencequeue.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheNewsReporter.Accessors.NotificationApiService", "Accessors\TheNewsReporter.Accessors.NotificationService\TheNewsReporter.Accessors.NotificationApiService.csproj", "{D344D2D5-292C-484D-AD12-70846F68817C}"
