@@ -1,7 +1,7 @@
 apiVersion: dapr.io/v1alpha1
 kind: Component
 metadata:
-  name: recommendandsummerizequeue
+  name: processgetnewsqueue
 spec:
   type: bindings.rabbitmq
   version: v1
@@ -9,7 +9,7 @@ spec:
   - name: host
     value: "amqp://rabbitmq:5672"
   - name: queueName
-    value: recommendandsummerizequeue
+    value: processgetnewsqueue
   - name: vhost
     value: /
   - name: durable
@@ -19,10 +19,8 @@ spec:
   - name: ttlInSeconds
     value: 60
   - name: prefetchCount
-    value: 3
+    value: 0
   - name: exclusive
     value: false
   - name: maxPriority
-    value: 5
-# scopes:
-#     - ai-assistant-service 
+    value: 5   

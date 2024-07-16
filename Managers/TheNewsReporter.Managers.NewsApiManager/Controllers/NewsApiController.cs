@@ -17,14 +17,16 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
         private readonly NewsAggregationService _newsAggregationService;
         private readonly UserPreferenceService _userPreferenceService;
         private readonly NotificationService _notificationService;
+        private readonly DaprClient _daprClient;
 
-        public NewsApiController(ILogger<NewsApiController> logger, AIAssistantService aiAssistantService, NewsAggregationService newsAggregationService, UserPreferenceService userPreferenceService, NotificationService notificationService)
+        public NewsApiController(ILogger<NewsApiController> logger, AIAssistantService aiAssistantService, NewsAggregationService newsAggregationService, UserPreferenceService userPreferenceService, NotificationService notificationService,DaprClient daprClient)
         {
             _logger = logger;
             _aiAssistantService = aiAssistantService;
             _newsAggregationService = newsAggregationService;
             _userPreferenceService = userPreferenceService;
             _notificationService = notificationService;
+            _daprClient = daprClient;
         }
 
         [HttpGet("allprefes")]
@@ -84,18 +86,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
             _logger.LogInformation("Getting news in controller");
             try
             {
-                var userPreferences = await _userPreferenceService.GetUserPreferenceById(id);
-                _logger.LogInformation("User preferences retrieved successfully");
-                var news = await _newsAggregationService.GetNews(userPreferences);
-                _logger.LogInformation("News retrieved successfully");
-
-                _logger.LogInformation("#######################################");
-
-                var articles = await _aiAssistantService.GetArticles(userPreferences, news);
-                _logger.LogInformation("Returning articles from AI Assistant service");
-                _logger.LogInformation("Articles: {articles}", JsonSerializer.Serialize(articles));
-
-                await _notificationService.SendNotificationAsync(userPreferences.CommunicationChannel, articles);
+                await _daprClient.InvokeBindingAsync("processgetnewsqueue", "create", id);
 
                 _logger.LogInformation("Sent Proccess Message in Controller Succesfully");
                 return Accepted("Request Accepted News are being proccessed");
@@ -104,6 +95,35 @@ namespace TheNewsReporter.Managers.NewsApiManager.Controllers
             {
                 _logger.LogError("Error in getting news, ex: {ex}", ex.Message);
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error in getting news");
+            }
+        }
+
+        [HttpPost("/processgetnewsqueue")]
+        public async Task ProcessGetNewsQueue([FromBody]string id)
+        {
+            _logger.LogInformation("Processing get news queue in controller");
+            _logger.LogInformation("Id: {id}", id);
+
+            try
+            {
+                var userPreferences = await _userPreferenceService.GetUserPreferenceById(id);
+                _logger.LogInformation("User preferences retrieved successfully");
+                var news = await _newsAggregationService.GetNews(userPreferences);
+                _logger.LogInformation("News retrieved successfully");
+
+                _logger.LogInformation("#######################################");
+
+                var articles = await _aiAssistantService.GetArticlesRecomendations(userPreferences, news);
+                _logger.LogInformation("Returning articles from AI Assistant service");
+                _logger.LogInformation("Articles: {articles}", JsonSerializer.Serialize(articles));
+
+                await _notificationService.SendNotificationAsync(userPreferences.CommunicationChannel, articles);
+
+                _logger.LogInformation("Sent Notification Succesfully");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error in processing get news queue, ex: {ex}", ex.Message);
             }
         }
     }

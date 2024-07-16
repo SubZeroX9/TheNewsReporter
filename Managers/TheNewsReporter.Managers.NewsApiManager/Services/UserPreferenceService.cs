@@ -1,6 +1,7 @@
 ﻿
 using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using TheNewsReporter.Managers.NewsApiManager.Models.News;
 using TheNewsReporter.Managers.NewsApiManager.Models.Requests;
 using TheNewsReporter.Managers.NewsApiManager.Models.UserPreferences;
@@ -18,12 +19,12 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
             _daprClient = daprClient;
         }
 
-        public async Task<List<Models.UserPreferences.UserPreference>> GetAllUserPreferences()
+        public async Task<List<UserPreference>> GetAllUserPreferences()
         {
             _logger.LogInformation("Getting all user preferences in user pref service using dapr");
             try
             {
-                var userPreferences = await _daprClient.InvokeMethodAsync<List<Models.UserPreferences.UserPreference>>(HttpMethod.Get, "user-preferences-service", "/alluserpreferences");
+                var userPreferences = await _daprClient.InvokeMethodAsync<List<UserPreference>>(HttpMethod.Get, "user-preferences-service", "/alluserpreferences");
                 _logger.LogInformation("User preferences retrieved successfully");
                 return userPreferences;
             }
@@ -39,8 +40,7 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
             _logger.LogInformation("Updating user preferences in user pref service using dapr");
             try
             {
-                await _daprClient.InvokeMethodAsync(HttpMethod.Put, "user-preferences-service", "/updateuserpreferencesqueue", userPreference);
-                //await _daprClient.InvokeBindingAsync("updateuserpreferencesqueue", "create", userPreference);
+                await _daprClient.InvokeBindingAsync("updatepreferencequeue", "create", userPreference);
 
                 _logger.LogInformation("User preferences updated successfully");
             }
@@ -67,12 +67,12 @@ namespace TheNewsReporter.Managers.NewsApiManager.Services
             }
         }
 
-        public async Task<Models.UserPreferences.UserPreference> GetUserPreferenceById(string id)
+        public async Task<UserPreference> GetUserPreferenceById(string id)
         {
             _logger.LogInformation("Getting user preference by id in user pref service using dapr");
             try
             {
-                var userPreference = await _daprClient.InvokeMethodAsync<Models.UserPreferences.UserPreference>(HttpMethod.Get, "user-preferences-service", $"/{id}");
+                var userPreference = await _daprClient.InvokeMethodAsync<UserPreference>(HttpMethod.Get, "user-preferences-service", $"/{id}");
                 _logger.LogInformation("User preference retrieved successfully");
                 return userPreference;
             }
